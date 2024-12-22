@@ -19,7 +19,8 @@ public class Auth extends BaseEntity {
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
-    @Column(name="email", nullable = false, unique = true)
+
+    @Column(name="email",unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -30,5 +31,12 @@ public class Auth extends BaseEntity {
             joinColumns = @JoinColumn(name = "auth_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @Column(name = "ip_address")
+    private String ipAddress;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rate_limit_id")
+    private RateLimit rateLimit;
 
 }

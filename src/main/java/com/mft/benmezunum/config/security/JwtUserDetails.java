@@ -1,6 +1,8 @@
 package com.mft.benmezunum.config.security;
 
 import com.mft.benmezunum.entity.Auth;
+import com.mft.benmezunum.exception.AllExceptions;
+import com.mft.benmezunum.exception.customException.AuthenticationException;
 import com.mft.benmezunum.repository.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +27,7 @@ public class JwtUserDetails implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Auth> auth = authRepository.findOptionalByUsername(username);
         if (auth.isEmpty())
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new AuthenticationException(AllExceptions.USER_NOT_FOUND, username+"Kullanıcı bulunamadı.");
         return buildUserDetails(auth.get());
     }
 

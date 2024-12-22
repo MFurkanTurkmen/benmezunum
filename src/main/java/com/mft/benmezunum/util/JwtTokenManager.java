@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.mft.benmezunum.exception.AllExceptions;
+import com.mft.benmezunum.exception.customException.AuthenticationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,21 +23,18 @@ public class JwtTokenManager {
 
         Long exDate = 1000L*60*60*24;// 1 gün
         try{
-            /**
-             * DİKKAT!!!  kullanıcı adı şifre Claim içine konulmaz.
-             * Claim nesnesi olarak yerleştirdiğiniz bilgilerin açık okunur olduğunu asla unutmayınız.
-             */
+
             token =  JWT.create()
                     .withAudience()
-                    .withClaim("username",username) // Token içerisine eklemek istediğiniz nesneleri bununla ekliyoruz.
+                    .withClaim("username",username)
                     .withClaim("isOne",true)
-                    .withIssuer("mft") // sahibi
-                    .withIssuedAt(new Date()) // oluşturulma zamanı
-                    .withExpiresAt(new Date(System.currentTimeMillis()+exDate)) // geçersiz olma zamanı
+                    .withIssuer("mft")
+                    .withIssuedAt(new Date())
+                    .withExpiresAt(new Date(System.currentTimeMillis()+exDate))
                     .sign(Algorithm.HMAC512(sifreAnahtari));
             return Optional.of(token);
         }catch (Exception ex){
-            return Optional.empty();
+            throw new AuthenticationException(AllExceptions.UNKNOWN_ERROR,"Token oluşturulamadı.");
         }
     }
 
@@ -49,7 +48,7 @@ public class JwtTokenManager {
             if(decodedJWT==null)
                 return false;
         }catch (Exception exception){
-            return false;
+            throw new AuthenticationException(AllExceptions.UNKNOWN_ERROR);
         }
         return true;
     }
@@ -65,7 +64,7 @@ public class JwtTokenManager {
                 return Optional.empty();
             return Optional.of(decodedJWT.getClaim("username").asString());
         }catch (Exception exception){
-            return Optional.empty();
+            throw new AuthenticationException(AllExceptions.UNKNOWN_ERROR);
         }
 
     }

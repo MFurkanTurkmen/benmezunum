@@ -1,6 +1,8 @@
 package com.mft.benmezunum.config.security;
 
 
+import com.mft.benmezunum.exception.AllExceptions;
+import com.mft.benmezunum.exception.customException.AuthenticationException;
 import com.mft.benmezunum.util.JwtTokenManager;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -42,7 +44,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }else {
-                throw new RuntimeException("Token geçerli değil");
+                throw new AuthenticationException(AllExceptions.USER_NOT_FOUND);
             }
         }
         filterChain.doFilter(request,response);
