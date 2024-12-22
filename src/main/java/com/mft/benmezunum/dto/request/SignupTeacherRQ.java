@@ -1,14 +1,11 @@
 package com.mft.benmezunum.dto.request;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Set;
 
 @AllArgsConstructor
 @Getter

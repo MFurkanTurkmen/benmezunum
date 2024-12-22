@@ -48,8 +48,8 @@ public class AuthService {
         auth.setPassword(passwordEncoder.encode(dto.getPassword()));
 
 
-        auth.setRoles(Set.of(roleRepository.findOptionalByName(ERole.TEACHER)
-                .orElseThrow(() -> new AuthenticationException(AllExceptions.UNKNOWN_ERROR,"Role bulunamadi"))));
+        auth.setRoles(roleRepository.findOptionalByName(ERole.TEACHER)
+                .orElseThrow(() -> new AuthenticationException(AllExceptions.UNKNOWN_ERROR,"Role bulunamadi")));
 
         auth.setIpAddress(rateLimit.getIpAddress());
         rateLimit.setCount(0);

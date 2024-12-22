@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup-teacher")
-    public ResponseEntity<?> registerUser(@RequestBody SignupTeacherRQ signUpTeacherRQ, HttpServletRequest request) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupTeacherRQ signUpTeacherRQ, HttpServletRequest request) {
         authService.register(signUpTeacherRQ,request);
         return ResponseEntity.ok("User registered successfully!");
     }

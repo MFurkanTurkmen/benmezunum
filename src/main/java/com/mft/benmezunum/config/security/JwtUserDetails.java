@@ -32,9 +32,7 @@ public class JwtUserDetails implements UserDetailsService {
     }
 
     private UserDetails buildUserDetails(Auth auth) {
-        List<GrantedAuthority> authorities = auth.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(auth.getRoles().getName().name()));
 
         return User.builder()
                 .username(auth.getUsername())
